@@ -10,9 +10,26 @@ function addtodo(event) {
   event.preventDefault()
   todo.push(text);
   setTodo([...todo])
-  console.log(todo);
-
+  // console.log(todo);
+setText('')
 }
+
+function del(i) {
+  console.log('delete called');
+  const newval = [...todo]
+  
+  newval.splice(i, 1)
+  setTodo(newval)
+  
+}
+function upd(i) {
+  console.log('updated');
+  let newarr = [...todo];
+  const user = prompt('enter new value');
+  newarr[i]= user
+  setTodo(newarr)
+}
+
 
 
 
@@ -26,8 +43,8 @@ function addtodo(event) {
     <ul>
       {todo.map((item,index)=>{
 return <li key={index}>{item}
-<button>Delete</button>
-<button>edit</button>
+<button onClick={()=> del(index)}>Delete</button>
+<button onClick={()=> upd(index)}>edit</button>
 </li>
 })}
     </ul>
