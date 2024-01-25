@@ -38,7 +38,7 @@ const navigate = useNavigate()
 
     const user = userCredential.user;
     console.log(user);
-    navigate('./')
+    navigate('/')
   })
   .catch((error) => {
     const errorCode = error.code;

@@ -1,8 +1,16 @@
 import { Button, TextField, Box, CircularProgress } from '@mui/material';
 import React, { useState } from 'react';
 import { useRef } from 'react';
+import {  signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../config/firebase';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+//      use navigate
+const navigate = useNavigate()
+
+  //  use state
   const [loading, setLoading] = useState(false);
   const email = useRef();
   const password = useRef();
@@ -10,8 +18,18 @@ const Login = () => {
   const loginfunc = async (event) => {
     event.preventDefault();
     console.log('login clicked');
-    console.log(email.current.value);
-    console.log(password.current.value);
+    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log(user);
+      navigate('/')
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    });
         try {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 2000));
