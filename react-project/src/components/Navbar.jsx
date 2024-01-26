@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'Login', 'Register'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Home', 'Login', 'Register'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -30,6 +30,7 @@ function ResponsiveAppBar() {
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    console.log('clicked setting');
   };
 
   const handleCloseNavMenu = (page) => {

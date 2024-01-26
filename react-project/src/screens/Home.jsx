@@ -5,14 +5,24 @@ import { Button, TextField } from '@mui/material';
 import MultiActionAreaCard from '../components/Card';
 import { onAuthStateChanged } from 'firebase/auth';
 
+
+
+
 const Home = () => {
+
+  //  use states
   const todoVal = useRef();
   const [data, setData] = useState([]);
 
+
+  // use effect
   useEffect(() => {
     getDataFromFirestore();
   }, []);
 
+
+
+  // onauth function
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const uid = user.uid;
@@ -35,6 +45,10 @@ const Home = () => {
     setData(todos);
   }
 
+
+
+
+
   // delete function
   const deletefunc = async (index) => {
     try {
@@ -48,10 +62,12 @@ const Home = () => {
     }
   };
 
+
+
+
   // update function 
   const updatefunc = async (value, index) => {
     try {
-      // Update the todo item in the Firestore database
       await updateDoc(doc(db, "todo", data[index].docId), {
         todo: value,
       });
@@ -67,13 +83,17 @@ const Home = () => {
     }
   };
 
+
+
+
+
   // post data on firestore 
   const todoFunc = async (event) => {
     event.preventDefault();
     const obj = {
       todo: todoVal.current.value,
       uid: auth.currentUser.uid,
-      timestamp: new Date(), // Assuming you have a timestamp field
+      timestamp: new Date(), 
     };
     try {
       await addDoc(collection(db, "todo"), obj);
@@ -87,21 +107,25 @@ const Home = () => {
 
   return (
     <>
-      <form onSubmit={todoFunc}>
+    <div sx={{ height: '80vh' }} className='d-flex justify-content-center mt-5 item-center'>
+      <form onSubmit={todoFunc} className='d-flex justify-content-center flex-column w-25 gap-5' >
         <TextField id='outlined-basic' label='Todo' variant='outlined' required inputRef={todoVal} />
         <Button type='submit' variant='contained'>
           Add Todo
         </Button>
       </form>
+      </div>
+<div className='d-flex justify-content-center mt-5 item-center'>
 
       {data.length > 0 ? (
         data.map((todo, index) => (
           <MultiActionAreaCard key={todo.id} todo={todo.todo} deletefunc={() => deletefunc(index)} updatefunc={updatefunc} index={index} />
-        ))
-      ) : (
-        <h1>No data found</h1>
-      )}
-    </>
+          ))
+          ) : (
+            <h1>No data found</h1>
+            )}
+            </div>
+            </>
   );
 };
 
